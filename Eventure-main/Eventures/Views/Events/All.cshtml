@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Eventures.App.Models.EventAllViewModel>
+﻿@using Eventures.App.Models
+@model IEnumerable<Eventures.App.Models.EventAllViewModel>
 
 @{
     ViewData["Title"] = "All Events";
@@ -27,6 +28,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Owner)
             </th>
+            <th>
+                Action
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -46,7 +50,13 @@
                 @Html.DisplayFor(modelItem => item.Place)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Owner)
+                @await Html.PartialAsync("_OrderPartial", new OrderCreateBindingModel
+                {
+                    EventId = item.Id
+                })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem=>item.Owner)
             </td>
         </tr>
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Eventures.App.Domain;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Eventures.Domain
@@ -6,7 +8,7 @@ namespace Eventures.Domain
     public class Event
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         public string Name { get; set; }
 
@@ -25,5 +27,7 @@ namespace Eventures.Domain
         public EventuresUser Owner { get; set; }
 
         public string OwnerId { get; set; }
+
+        public IEnumerable<Order> Orders { get; set; } = new List<Order>();
     }
 }

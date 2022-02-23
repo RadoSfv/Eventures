@@ -20,18 +20,23 @@ namespace Eventures.App.Controllers
         {
             this.context = context;
         }
-        public IActionResult All()
+        public IActionResult All(string searchString)
         {
             List<EventAllViewModel> events = context.Events
-            .Select(eventFromDb => new EventAllViewModel
+            .Select(e=> new EventAllViewModel
             {
-              Name = eventFromDb.Name,
-              Place = eventFromDb.Place,
-              Start = eventFromDb.Start.ToString("dd-MMM-yyyy HH:mm", CultureInfo.InvariantCulture),
-              End = eventFromDb.End.ToString("dd-MMM-yyyy HH:mm", CultureInfo.InvariantCulture),
-              Owner = eventFromDb.Owner.UserName
+                Id = e.Id,
+              Name = e.Name,
+              Place = e.Place,
+              Start = e.Start.ToString("dd-MMM-yyyy HH:mm", CultureInfo.InvariantCulture),
+              End = e.End.ToString("dd-MMM-yyyy HH:mm", CultureInfo.InvariantCulture),
+              Owner = e.Owner.UserName
             })
             .ToList();
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                events = events.Where(s => s.Place.Contains(searchString)).ToList();
+            }
             return this.View(events);
            }
         public IActionResult Create()
